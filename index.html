@@ -190,7 +190,7 @@
             <h3>이 서비스가 기대된다면<br>좋아요를 눌러주세요.</h3>
             <p>사장님들의 반응은 다음 기능을 결정하는 가장 중요한 데이터가 됩니다.</p>
             <button class="like-btn" id="likeBtn" type="button" aria-pressed="false"><span><i class="heart">♡</i> 좋아요</span><span class="like-count"><b id="likeCount">128</b>명</span></button>
-            <div class="demo-notice">ⓘ 좋아요와 댓글은 현재 사용 중인 브라우저에만 저장됩니다.</div>
+            <div class="demo-notice" id="storageNotice">ⓘ 저장 방식을 확인하는 중입니다.</div>
           </aside>
           <div class="comments-card">
             <div class="comments-head"><h3>사장님 의견</h3><span>댓글 <b id="commentCount">2</b>개</span></div>
@@ -330,28 +330,35 @@
       {id:'sample-1',name:'성수동 카페 사장',text:'식자재 가격이 오른 시점을 자동으로 알려주는 기능이 가장 기대돼요.',time:'오늘 오전 9:42',mine:false},
       {id:'sample-2',name:'분식집 운영 6년차',text:'거래명세서가 제각각이라 정리하기 힘든데 사진으로 된다면 바로 써보고 싶습니다.',time:'어제 오후 8:15',mine:false}
     ];
-    let userComments=storage.get('marginguard_comments_v1',[]);
-    if(!Array.isArray(userComments)) userComments=[];
+    const visitorId=storage.get('marginguard_visitor_id_v1',null)||(globalThis.crypto&&typeof globalThis.crypto.randomUUID==='function'?globalThis.crypto.randomUUID():'v-'+Date.now()+'-'+Math.random().toString(36).slice(2));
+    storage.set('marginguard_visitor_id_v1',visitorId);
+    let apiAvailable=false, comments=[...defaultComments], liked=storage.get('marginguard_liked_v1',false)===true, likeCount=128;
     const commentText=$('#commentText');
-    function renderComments(){
-      const list=$('#commentList'), comments=[...userComments,...defaultComments]; list.textContent=''; $('#commentCount').textContent=comments.length;
-      comments.forEach(comment=>{
+    function renderComments(items=comments){
+      const list=$('#commentList'); list.textContent=''; $('#commentCount').textContent=items.length;
+      items.forEach(comment=>{
         const item=document.createElement('article'); item.className='comment-item';
         const meta=document.createElement('div'); meta.className='comment-meta';
         const author=document.createElement('div'); author.className='comment-author';
         const avatar=document.createElement('span'); avatar.className='comment-avatar'; avatar.textContent='👤';
         const info=document.createElement('div'); const name=document.createElement('b'); name.textContent=comment.name; const role=document.createElement('span'); role.textContent=comment.mine?'내가 남긴 의견':'베타 참여자'; info.append(name,role); author.append(avatar,info);
         const right=document.createElement('div'); const time=document.createElement('span'); time.className='comment-time'; time.textContent=comment.time; right.append(time);
-        if(comment.mine){const del=document.createElement('button');del.type='button';del.className='delete-comment';del.textContent=' · 삭제';del.addEventListener('click',()=>{userComments=userComments.filter(c=>c.id!==comment.id);storage.set('marginguard_comments_v1',userComments);renderComments();showToast('댓글을 삭제했습니다.')});right.append(del)}
+        if(comment.mine && !String(comment.id).startsWith('sample-')){const del=document.createElement('button');del.type='button';del.className='delete-comment';del.textContent=' · 삭제';del.addEventListener('click',async()=>{try{if(apiAvailable){await fetch('/api/comments/'+encodeURIComponent(comment.id),{method:'DELETE',headers:{'Content-Type':'application/json'},body:JSON.stringify({visitorId})});await loadFeedback()}else{let local=storage.get('marginguard_comments_v1',[]);local=local.filter(c=>c.id!==comment.id);storage.set('marginguard_comments_v1',local);comments=[...local,...defaultComments];renderComments()};showToast('댓글을 삭제했습니다.')}catch{showToast('댓글 삭제에 실패했습니다.')}});right.append(del)}
         const text=document.createElement('p');text.className='comment-text';text.textContent=comment.text;meta.append(author,right);item.append(meta,text);list.append(item);
       });
     }
-    const liked=storage.get('marginguard_liked_v1',false)===true;
-    function renderLike(value){const btn=$('#likeBtn');btn.classList.toggle('liked',value);btn.setAttribute('aria-pressed',String(value));$('.heart',btn).textContent=value?'♥':'♡';$('#likeCount').textContent=128+(value?1:0)}
-    renderLike(liked); renderComments();
-    $('#likeBtn').addEventListener('click',()=>{const value=!$('#likeBtn').classList.contains('liked');storage.set('marginguard_liked_v1',value);renderLike(value);showToast(value?'좋아요를 눌렀습니다.':'좋아요를 취소했습니다.')});
+    function renderLike(value){liked=value;const btn=$('#likeBtn');btn.classList.toggle('liked',value);btn.setAttribute('aria-pressed',String(value));$('.heart',btn).textContent=value?'♥':'♡';$('#likeCount').textContent=likeCount}
+    function localFeedback(){const local=storage.get('marginguard_comments_v1',[]);comments=[...(Array.isArray(local)?local:[]),...defaultComments];likeCount=128+(liked?1:0);renderLike(liked);renderComments();$('#storageNotice').textContent='ⓘ 데모 모드: 좋아요와 댓글은 이 브라우저에만 저장됩니다.'}
+    async function loadFeedback(){
+      try{
+        const response=await fetch('/api/feedback?visitorId='+encodeURIComponent(visitorId),{headers:{Accept:'application/json'}}); if(!response.ok) throw new Error('API unavailable');
+        const data=await response.json(); apiAvailable=true; comments=Array.isArray(data.comments)?data.comments:defaultComments; likeCount=Number(data.likeCount)||0; renderLike(Boolean(data.liked)); renderComments(); $('#storageNotice').textContent='✓ 서버 저장 모드: 다른 방문자와 좋아요·댓글이 공유됩니다.';
+      }catch{apiAvailable=false;localFeedback()}
+    }
+    renderLike(liked); renderComments(); loadFeedback();
+    $('#likeBtn').addEventListener('click',async()=>{try{if(apiAvailable){const response=await fetch('/api/likes/toggle',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({visitorId})});if(!response.ok)throw new Error();const data=await response.json();likeCount=data.likeCount;renderLike(data.liked);showToast(data.liked?'좋아요를 눌렀습니다.':'좋아요를 취소했습니다.')}else{const value=!liked;storage.set('marginguard_liked_v1',value);likeCount=128+(value?1:0);renderLike(value);showToast(value?'좋아요를 눌렀습니다.':'좋아요를 취소했습니다.')}}catch{showToast('좋아요 저장에 실패했습니다.')}});
     commentText.addEventListener('input',()=>$('#commentChars').textContent=commentText.value.length);
-    $('#commentForm').addEventListener('submit',e=>{e.preventDefault();const text=commentText.value.trim(),name=$('#commentName').value.trim()||'익명 사장님';if(!text)return showToast('댓글 내용을 입력해 주세요.');userComments.unshift({id:String(Date.now()),name,text,time:'방금 전',mine:true});storage.set('marginguard_comments_v1',userComments);commentText.value='';$('#commentChars').textContent='0';renderComments();showToast('댓글이 등록되었습니다.')});
+    $('#commentForm').addEventListener('submit',async e=>{e.preventDefault();const text=commentText.value.trim(),name=$('#commentName').value.trim()||'익명 사장님';if(!text)return showToast('댓글 내용을 입력해 주세요.');try{if(apiAvailable){const response=await fetch('/api/comments',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({visitorId,name,text})});if(!response.ok)throw new Error();await loadFeedback()}else{const local=storage.get('marginguard_comments_v1',[]);local.unshift({id:String(Date.now()),name,text,time:'방금 전',mine:true});storage.set('marginguard_comments_v1',local);comments=[...local,...defaultComments];renderComments()}commentText.value='';$('#commentChars').textContent='0';showToast('댓글이 등록되었습니다.')}catch{showToast('댓글 저장에 실패했습니다.')}});
 
     function showToast(message){const t=$('#toast');t.textContent=message;t.classList.add('show');clearTimeout(window.toastTimer);window.toastTimer=setTimeout(()=>t.classList.remove('show'),2200)}
     $$('[data-demo-toast]').forEach(b=>b.addEventListener('click',()=>showToast('실제 서비스에서 연결될 기능입니다.')));
