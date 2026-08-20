@@ -1,0 +1,368 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="마진가드 — 외식업 매출·식자재·원가를 한눈에 관리하는 AI 수익관리 서비스">
+  <meta name="theme-color" content="#0b1220">
+  <title>마진가드 | 외식업 수익관리 AI</title>
+  <style>
+    :root{
+      --navy:#0b1220;--navy2:#111b31;--ink:#101827;--muted:#667085;--line:#e7eaf0;
+      --bg:#f6f8fb;--card:#fff;--blue:#356dff;--blue2:#6b8cff;--cyan:#42d3c7;
+      --green:#16a36a;--orange:#f59e0b;--red:#ee5d63;--radius:22px;--shadow:0 18px 55px rgba(23,35,61,.10);
+    }
+    *{box-sizing:border-box} html{scroll-behavior:smooth} body{margin:0;color:var(--ink);background:#fff;font-family:Pretendard,"Apple SD Gothic Neo","Noto Sans KR",Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;line-height:1.65;-webkit-font-smoothing:antialiased}
+    button,input,select{font:inherit} button{cursor:pointer} a{color:inherit;text-decoration:none} img{max-width:100%}
+    .container{width:min(1180px,calc(100% - 40px));margin:auto}.section{padding:112px 0}.eyebrow{display:inline-flex;align-items:center;gap:8px;color:var(--blue);font-size:13px;font-weight:850;letter-spacing:.05em;text-transform:uppercase}.eyebrow:before{content:"";width:22px;height:2px;background:currentColor}.headline{font-size:clamp(34px,4.5vw,60px);line-height:1.08;letter-spacing:-.052em;margin:15px 0 20px}.subhead{font-size:18px;color:var(--muted);max-width:670px;margin:0}.section-head{text-align:center;max-width:780px;margin:0 auto 54px}.section-head .subhead{margin:auto}.section-title{font-size:clamp(30px,3.5vw,48px);line-height:1.16;letter-spacing:-.045em;margin:13px 0 18px}.btn{border:0;border-radius:13px;padding:14px 20px;font-weight:850;display:inline-flex;align-items:center;justify-content:center;gap:8px;transition:.2s}.btn:hover{transform:translateY(-2px)}.btn-primary{color:#fff;background:linear-gradient(135deg,var(--blue),#5d7eff);box-shadow:0 10px 25px rgba(53,109,255,.28)}.btn-dark{color:#fff;background:var(--navy)}.btn-light{background:#fff;color:var(--navy);border:1px solid var(--line)}.btn-sm{padding:10px 15px;font-size:13px}.btn-lg{padding:17px 25px}.pill{display:inline-flex;align-items:center;gap:8px;padding:8px 12px;border-radius:999px;font-size:12px;font-weight:800}.dot{width:8px;height:8px;border-radius:50%;background:var(--green);box-shadow:0 0 0 5px rgba(22,163,106,.12)}
+
+    /* nav */
+    .nav{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.9);backdrop-filter:blur(16px);border-bottom:1px solid rgba(231,234,240,.8)}.nav-inner{height:72px;display:flex;align-items:center;justify-content:space-between}.brand{display:flex;align-items:center;gap:10px;font-weight:950;font-size:20px;letter-spacing:-.04em}.brand-mark{width:35px;height:35px;border-radius:11px;display:grid;place-items:center;background:linear-gradient(145deg,var(--blue),#7b8dff);color:white;box-shadow:0 8px 16px rgba(53,109,255,.25)}.brand-mark svg{width:21px}.nav-links{display:flex;align-items:center;gap:30px;font-size:14px;font-weight:750;color:#495264}.nav-links a:hover{color:var(--blue)}.nav-actions{display:flex;gap:9px}.mobile-menu{display:none;border:0;background:transparent;font-size:24px}
+
+    /* hero */
+    .hero{position:relative;overflow:hidden;padding:76px 0 92px;background:radial-gradient(circle at 85% 8%,rgba(75,130,255,.14),transparent 33%),radial-gradient(circle at 10% 100%,rgba(66,211,199,.10),transparent 29%),linear-gradient(180deg,#fff,#f7f9fd)}.hero:after{content:"";position:absolute;inset:auto -10% -160px;height:270px;background:linear-gradient(90deg,transparent,rgba(53,109,255,.05),transparent);transform:rotate(-4deg)}.hero-grid{display:grid;grid-template-columns:1.02fr .98fr;gap:64px;align-items:center}.hero h1{font-size:clamp(44px,5.6vw,76px);line-height:1.04;letter-spacing:-.065em;margin:18px 0 23px}.gradient-text{background:linear-gradient(95deg,var(--blue),#7c5cff);-webkit-background-clip:text;background-clip:text;color:transparent}.hero-copy{font-size:19px;color:var(--muted);max-width:600px}.hero-cta{display:flex;flex-wrap:wrap;gap:11px;margin:32px 0 24px}.micro{font-size:12px;color:#7b8496;display:flex;align-items:center;gap:15px;flex-wrap:wrap}.micro span:before{content:"✓";color:var(--green);font-weight:900;margin-right:5px}.hero-visual{position:relative}.dash-mock{position:relative;background:#fff;border:1px solid #e9edf4;border-radius:25px;padding:16px;box-shadow:0 35px 90px rgba(29,46,86,.18);transform:perspective(1300px) rotateY(-4deg) rotateX(2deg)}.mock-top{display:flex;justify-content:space-between;align-items:center;padding:8px 6px 18px}.mock-greeting b{display:block;font-size:15px}.mock-greeting span{font-size:11px;color:var(--muted)}.avatar{width:35px;height:35px;border-radius:12px;background:linear-gradient(135deg,#ffd7b8,#e48a53);display:grid;place-items:center;font-size:18px}.mock-kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:9px}.mini-kpi{border:1px solid #edf0f5;border-radius:15px;padding:13px}.mini-kpi span{font-size:10px;color:var(--muted);display:block}.mini-kpi strong{font-size:17px;letter-spacing:-.03em}.mini-kpi em{font-size:10px;color:var(--green);font-style:normal;margin-left:3px}.chart-card{margin-top:10px;border-radius:17px;padding:15px;background:var(--navy);color:#fff;overflow:hidden}.chart-title{display:flex;justify-content:space-between;align-items:center}.chart-title span{font-size:11px;color:#9da9c0}.chart-title b{font-size:13px}.chart-value{font-size:25px;font-weight:900;margin-top:3px}.chart-value small{font-size:10px;color:#60dfb3}.chart-svg{width:100%;height:115px;display:block;margin-top:5px}.alert-card{position:absolute;right:-36px;bottom:44px;width:235px;border-radius:17px;background:#fff;padding:14px;box-shadow:0 20px 45px rgba(28,45,80,.17);border:1px solid #edf0f5;display:flex;gap:11px;align-items:flex-start}.alert-icon{flex:0 0 35px;height:35px;border-radius:11px;background:#fff4dc;color:#d98500;display:grid;place-items:center}.alert-card b{display:block;font-size:12px}.alert-card p{font-size:10px;color:var(--muted);margin:3px 0 0}.float-receipt{position:absolute;left:-34px;top:38px;background:#fff;border-radius:16px;padding:12px 14px;box-shadow:0 17px 35px rgba(30,48,82,.15);border:1px solid #edf0f5;display:flex;align-items:center;gap:10px;font-size:11px;font-weight:800}.scan-icon{width:32px;height:32px;border-radius:10px;background:#eaf0ff;color:var(--blue);display:grid;place-items:center}
+
+    .logos{padding:24px 0;border-top:1px solid #eef1f5;border-bottom:1px solid #eef1f5;background:#fff}.logos-inner{display:flex;align-items:center;justify-content:center;gap:15px;flex-wrap:wrap;color:#778095}.logos strong{color:#384255;font-size:13px;margin-right:15px}.industry-chip{border:1px solid var(--line);border-radius:999px;padding:8px 14px;font-size:12px;font-weight:750;background:#fff}
+
+    /* problem / flow */
+    .problem{background:var(--bg)}.problem-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}.card{background:#fff;border:1px solid #e9edf3;border-radius:var(--radius);padding:28px;box-shadow:0 5px 20px rgba(27,39,66,.035)}.problem-card{position:relative;overflow:hidden}.problem-num{font-size:12px;color:var(--blue);font-weight:900}.problem-card h3{font-size:21px;letter-spacing:-.03em;margin:13px 0 8px}.problem-card p{font-size:14px;color:var(--muted);margin:0}.problem-icon{width:51px;height:51px;border-radius:16px;display:grid;place-items:center;font-size:23px;background:#eef3ff;margin-bottom:20px}.problem-card:nth-child(2) .problem-icon{background:#fff4e6}.problem-card:nth-child(3) .problem-icon{background:#e8faf5}
+    .loop{background:var(--navy);color:#fff;position:relative;overflow:hidden}.loop:before{content:"";position:absolute;inset:-30% auto auto 45%;width:600px;height:600px;border-radius:50%;background:rgba(53,109,255,.11);filter:blur(5px)}.loop-grid{position:relative;display:grid;grid-template-columns:.85fr 1.15fr;gap:80px;align-items:center}.loop .subhead{color:#9ba8c1}.loop-list{display:grid;gap:13px}.loop-item{padding:19px;border-radius:17px;background:rgba(255,255,255,.055);border:1px solid rgba(255,255,255,.10);display:grid;grid-template-columns:42px 1fr auto;align-items:center;gap:14px;transition:.2s}.loop-item:hover{background:rgba(255,255,255,.09);transform:translateX(4px)}.loop-step{width:42px;height:42px;border-radius:13px;background:rgba(79,125,255,.18);color:#89a8ff;display:grid;place-items:center;font-weight:900}.loop-item b{font-size:15px}.loop-item p{font-size:11px;color:#99a5ba;margin:2px 0 0}.loop-tag{font-size:10px;border:1px solid rgba(255,255,255,.16);padding:5px 8px;border-radius:999px;color:#b7c1d3}
+
+    /* features */
+    .feature-grid{display:grid;grid-template-columns:repeat(12,1fr);gap:18px}.feature{min-height:280px;position:relative;overflow:hidden}.feature.large{grid-column:span 7}.feature.small{grid-column:span 5}.feature h3{font-size:24px;letter-spacing:-.04em;margin:13px 0 8px}.feature p{max-width:470px;color:var(--muted);font-size:14px}.feature-badge{font-size:11px;color:var(--blue);font-weight:900}.feature-ui{position:absolute;right:23px;bottom:-19px;width:47%;background:#f7f9fc;border:1px solid #e7ebf1;border-radius:18px 18px 0 0;padding:13px;box-shadow:0 10px 30px rgba(33,48,77,.08)}.scan-line{height:5px;background:linear-gradient(90deg,transparent,var(--blue),transparent);box-shadow:0 0 12px var(--blue);animation:scan 2.6s infinite}.receipt-paper{background:#fff;border-radius:10px;padding:11px;font-family:monospace;font-size:8px;color:#667085;line-height:1.8}.receipt-row{display:flex;justify-content:space-between;border-bottom:1px dashed #e3e6eb}@keyframes scan{0%,100%{transform:translateY(4px)}50%{transform:translateY(74px)}}
+    .meter{height:9px;background:#edf1f6;border-radius:99px;overflow:hidden}.meter i{display:block;height:100%;border-radius:inherit;background:linear-gradient(90deg,var(--blue),var(--cyan))}.cost-list{margin-top:18px;display:grid;gap:13px}.cost-row{display:grid;grid-template-columns:70px 1fr 45px;gap:10px;align-items:center;font-size:11px;font-weight:800}.supplier-mini{margin-top:18px;display:grid;gap:8px}.supplier-line{display:flex;align-items:center;justify-content:space-between;border:1px solid #edf0f4;border-radius:12px;padding:10px;font-size:11px}.supplier-line:first-child{border-color:#acc0ff;background:#f4f7ff}.saving{color:var(--green);font-weight:900}.stores{display:flex;gap:8px;margin-top:20px}.store-dot{flex:1;padding:10px;background:#f6f8fb;border-radius:12px;text-align:center;font-size:10px}.store-dot b{font-size:16px;display:block}.store-dot.active{background:var(--navy);color:#fff}
+
+    /* calculator */
+    .calculator{background:linear-gradient(145deg,#f2f6ff,#f7fbfa)}.calc-box{display:grid;grid-template-columns:1fr .92fr;border:1px solid #e1e7f0;background:#fff;border-radius:28px;box-shadow:var(--shadow);overflow:hidden}.calc-inputs{padding:42px}.calc-inputs h3,.calc-result h3{font-size:25px;letter-spacing:-.04em;margin:0 0 7px}.calc-inputs>p{font-size:13px;color:var(--muted);margin:0 0 30px}.range-group{margin:24px 0}.range-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}.range-head label{font-size:13px;font-weight:800}.range-head output{font-size:14px;font-weight:900;color:var(--blue)}input[type=range]{width:100%;accent-color:var(--blue)}.calc-result{padding:42px;background:var(--navy);color:#fff;display:flex;flex-direction:column;justify-content:center}.calc-result>p{font-size:12px;color:#98a5bd}.result-total{font-size:clamp(38px,5vw,59px);font-weight:950;letter-spacing:-.06em;margin:16px 0}.result-total small{font-size:15px;font-weight:700;color:#8e9bb3}.result-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.result-cell{padding:14px;border-radius:14px;background:rgba(255,255,255,.06)}.result-cell span{display:block;color:#9eabc0;font-size:10px}.result-cell b{font-size:17px}.result-note{margin-top:17px;padding:12px;border-radius:12px;background:rgba(22,163,106,.14);color:#72e4b5;font-size:11px}
+
+    /* audience, price */
+    .audience-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:15px}.audience-card{padding:24px;border:1px solid var(--line);border-radius:19px;background:#fff;transition:.2s}.audience-card:hover{transform:translateY(-5px);box-shadow:var(--shadow);border-color:#c8d4ff}.audience-card .emoji{font-size:27px}.audience-card h3{margin:14px 0 5px;font-size:17px}.audience-card p{font-size:12px;color:var(--muted);margin:0}
+    .pricing{background:var(--bg)}.price-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;align-items:stretch}.price-card{padding:31px;border:1px solid #e2e7ef;border-radius:23px;background:#fff;position:relative}.price-card.featured{border:2px solid var(--blue);box-shadow:0 18px 45px rgba(53,109,255,.14);transform:translateY(-9px)}.recommended{position:absolute;right:18px;top:18px;background:#eaf0ff;color:var(--blue);font-size:10px;font-weight:900;border-radius:999px;padding:5px 9px}.price-name{font-size:13px;font-weight:900}.price{font-size:34px;font-weight:950;letter-spacing:-.04em;margin:14px 0 2px}.price small{font-size:12px;color:var(--muted);font-weight:600}.price-desc{font-size:12px;color:var(--muted);min-height:42px}.price-list{list-style:none;padding:0;margin:23px 0;display:grid;gap:10px}.price-list li{font-size:12px;color:#485266}.price-list li:before{content:"✓";color:var(--green);font-weight:900;margin-right:8px}.price-card .btn{width:100%}
+
+    .faq-list{max-width:820px;margin:auto;border-top:1px solid var(--line)}.faq-item{border-bottom:1px solid var(--line)}.faq-q{width:100%;padding:21px 0;background:none;border:0;text-align:left;font-weight:850;display:flex;justify-content:space-between;gap:20px}.faq-q i{font-style:normal;color:var(--blue);font-size:20px;transition:.2s}.faq-a{display:none;color:var(--muted);font-size:13px;padding:0 0 21px;max-width:720px}.faq-item.open .faq-a{display:block}.faq-item.open .faq-q i{transform:rotate(45deg)}
+    .final-cta{padding:88px 0}.cta-box{overflow:hidden;position:relative;background:linear-gradient(135deg,#0b1324,#182848);color:#fff;border-radius:31px;padding:66px;text-align:center}.cta-box:before,.cta-box:after{content:"";position:absolute;width:260px;height:260px;border-radius:50%;filter:blur(2px)}.cta-box:before{left:-90px;top:-140px;background:rgba(53,109,255,.28)}.cta-box:after{right:-120px;bottom:-170px;background:rgba(66,211,199,.18)}.cta-box>*{position:relative}.cta-box h2{font-size:clamp(34px,4vw,52px);letter-spacing:-.05em;line-height:1.12;margin:0 0 14px}.cta-box p{color:#aeb9cc;margin:0 auto 27px;max-width:570px}.footer{border-top:1px solid var(--line);padding:35px 0;color:#7c8596;font-size:11px}.footer-inner{display:flex;justify-content:space-between;align-items:center;gap:20px}.footer-links{display:flex;gap:20px}
+
+    /* community feedback demo */
+    .community{background:linear-gradient(180deg,#f7f9fd,#fff)}.community-grid{display:grid;grid-template-columns:.72fr 1.28fr;gap:20px;align-items:start}.reaction-card{background:linear-gradient(145deg,#0d1729,#172b4d);color:#fff;border-radius:25px;padding:32px;position:sticky;top:95px;overflow:hidden;box-shadow:0 20px 55px rgba(22,39,75,.16)}.reaction-card:after{content:"";position:absolute;width:190px;height:190px;border-radius:50%;right:-80px;bottom:-100px;background:rgba(53,109,255,.3)}.reaction-card>*{position:relative;z-index:1}.reaction-card .demo-label{font-size:10px;color:#8ba9ff;font-weight:900;letter-spacing:.1em}.reaction-card h3{font-size:26px;line-height:1.25;letter-spacing:-.04em;margin:12px 0 9px}.reaction-card p{color:#a7b3c7;font-size:13px;margin:0 0 26px}.like-btn{width:100%;border:1px solid rgba(255,255,255,.14);border-radius:16px;background:rgba(255,255,255,.08);color:#fff;padding:15px 18px;display:flex;align-items:center;justify-content:space-between;font-weight:900;transition:.2s}.like-btn:hover{background:rgba(255,255,255,.13);transform:translateY(-2px)}.like-btn.liked{background:rgba(238,93,99,.17);border-color:rgba(255,134,140,.38)}.heart{font-size:21px;display:inline-block;transition:.2s}.like-btn.liked .heart{color:#ff7379;transform:scale(1.12)}.like-count{font-size:12px;color:#bac5d6}.demo-notice{margin-top:14px;font-size:10px;color:#8390a5}.comments-card{background:#fff;border:1px solid #e4e9f1;border-radius:25px;padding:29px;box-shadow:0 8px 28px rgba(26,40,70,.05)}.comments-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px}.comments-head h3{font-size:20px;margin:0;letter-spacing:-.03em}.comments-head span{font-size:11px;color:var(--muted)}.comment-form{padding:16px;border-radius:16px;background:#f7f9fc;border:1px solid #e9edf3}.comment-name{width:100%;border:1px solid #dfe5ee;border-radius:11px;background:#fff;padding:10px 12px;font-size:12px;outline:none}.comment-form textarea{width:100%;height:86px;resize:vertical;border:1px solid #dfe5ee;border-radius:11px;background:#fff;padding:11px 12px;font-size:12px;outline:none;margin-top:8px}.comment-name:focus,.comment-form textarea:focus{border-color:#9bb2ff;box-shadow:0 0 0 3px rgba(53,109,255,.09)}.comment-form-foot{display:flex;align-items:center;justify-content:space-between;margin-top:8px}.char-count{font-size:10px;color:#8a94a5}.consent-row{display:flex;align-items:flex-start;gap:7px;font-size:10px;color:#667085;margin-top:9px}.consent-row input{margin-top:3px;accent-color:var(--blue)}.privacy-details{margin-top:12px;font-size:10px;color:#667085}.privacy-details summary{cursor:pointer;font-weight:800;color:#4c5a72}.privacy-details p{margin:7px 0 0;padding:10px;border-radius:10px;background:#f2f5fa}.comment-honeypot{position:absolute!important;left:-9999px!important;width:1px!important;height:1px!important;opacity:0!important}.comment-list{display:grid;gap:12px;margin-top:18px}.comment-item{padding:15px;border:1px solid #e8ecf2;border-radius:15px}.comment-meta{display:flex;justify-content:space-between;gap:15px}.comment-author{display:flex;align-items:center;gap:9px}.comment-avatar{width:31px;height:31px;border-radius:10px;background:linear-gradient(135deg,#dfe7ff,#c9d7ff);display:grid;place-items:center;font-size:13px}.comment-author b{font-size:11px;display:block}.comment-author span,.comment-time{font-size:9px;color:#8a94a5}.comment-text{font-size:12px;color:#495366;margin:10px 0 0;white-space:pre-wrap;overflow-wrap:anywhere}.delete-comment{border:0;background:none;color:#9aa3b1;font-size:9px;padding:3px}.delete-comment:hover{color:var(--red)}.no-comments{text-align:center;padding:28px 0;color:#8c96a7;font-size:12px}
+
+    /* app prototype */
+    .app-overlay{position:fixed;inset:0;background:#08101f;z-index:100;display:none;overflow:auto}.app-overlay.show{display:block}.app-shell{min-height:100vh;display:grid;grid-template-columns:242px 1fr;background:#f4f6fa}.app-sidebar{background:#0c1527;color:#fff;padding:22px 15px;position:sticky;top:0;height:100vh}.app-brand{padding:0 9px 24px;display:flex;align-items:center;justify-content:space-between}.app-brand .brand-mark{width:32px;height:32px}.close-app{border:0;background:rgba(255,255,255,.08);color:#fff;border-radius:9px;width:31px;height:31px;font-size:18px}.side-user{margin:0 4px 20px;padding:12px;background:rgba(255,255,255,.055);border:1px solid rgba(255,255,255,.07);border-radius:13px;display:flex;gap:10px;align-items:center}.side-user .avatar{width:35px;height:35px}.side-user b{font-size:11px;display:block}.side-user span{font-size:9px;color:#92a0b7}.side-label{padding:7px 12px;font-size:9px;color:#68768e;font-weight:900;text-transform:uppercase;letter-spacing:.12em}.side-nav{display:grid;gap:4px}.side-nav button{border:0;background:transparent;color:#9aa7bc;text-align:left;border-radius:11px;padding:11px 12px;font-weight:750;font-size:12px;display:flex;gap:10px;align-items:center}.side-nav button:hover,.side-nav button.active{background:rgba(69,111,255,.17);color:#fff}.nav-symbol{width:19px;text-align:center}.side-bottom{position:absolute;left:19px;right:19px;bottom:19px;background:linear-gradient(135deg,rgba(53,109,255,.25),rgba(66,211,199,.11));padding:14px;border-radius:13px;border:1px solid rgba(255,255,255,.08)}.side-bottom b{font-size:11px;display:block}.side-bottom span{font-size:9px;color:#aab5c7}.app-main{min-width:0}.app-topbar{height:68px;background:#fff;border-bottom:1px solid #e5e9f0;padding:0 29px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:5}.app-topbar h2{font-size:17px;margin:0}.top-actions{display:flex;align-items:center;gap:10px}.app-chip{font-size:10px;padding:7px 10px;border:1px solid #e3e7ee;border-radius:9px;background:#fff}.app-content{padding:27px;max-width:1400px;margin:auto}.app-view{display:none}.app-view.active{display:block}.app-welcome{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:20px}.app-welcome h1{font-size:26px;letter-spacing:-.04em;margin:0}.app-welcome p{font-size:11px;color:var(--muted);margin:3px 0 0}.app-kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:13px}.app-card{background:#fff;border:1px solid #e5e9f0;border-radius:16px;padding:17px}.app-kpi-head{display:flex;justify-content:space-between;color:#7b8496;font-size:10px}.app-kpi-value{font-size:22px;font-weight:950;letter-spacing:-.04em;margin:7px 0 1px}.up{color:var(--green)}.down{color:var(--red)}.tiny{font-size:9px;color:#8a94a5}.dashboard-grid{display:grid;grid-template-columns:1.5fr .8fr;gap:13px;margin-top:13px}.app-chart{height:245px}.app-card-title{display:flex;justify-content:space-between;align-items:center;margin-bottom:11px}.app-card-title b{font-size:12px}.app-card-title span{font-size:9px;color:var(--muted)}.app-line-chart{width:100%;height:190px}.alerts{display:grid;gap:8px}.alert-row{padding:10px;border:1px solid #edf0f4;border-radius:11px;display:grid;grid-template-columns:31px 1fr auto;gap:9px;align-items:center}.alert-row .alert-icon{width:31px;height:31px;border-radius:9px;font-size:13px}.alert-row b{display:block;font-size:10px}.alert-row span{font-size:8px;color:var(--muted)}.alert-row em{font-style:normal;font-size:8px;color:var(--blue)}
+    .upload-grid{display:grid;grid-template-columns:.88fr 1.12fr;gap:14px}.dropzone{min-height:395px;border:2px dashed #cdd6e5;border-radius:18px;background:#f9fbfe;display:flex;align-items:center;justify-content:center;text-align:center;padding:30px;transition:.2s}.dropzone.drag,.dropzone:hover{border-color:var(--blue);background:#f3f6ff}.drop-icon{font-size:43px}.dropzone h3{font-size:15px;margin:12px 0 4px}.dropzone p{font-size:10px;color:var(--muted);margin:0 0 14px}.file-input{display:none}.preview-img{max-height:280px;border-radius:12px;display:none;margin:auto}.analysis-state{display:none}.analysis-state.show{display:block}.loader{height:5px;background:#e9edf4;border-radius:99px;overflow:hidden;margin:15px 0}.loader i{display:block;width:10%;height:100%;background:linear-gradient(90deg,var(--blue),var(--cyan));animation:loading 1.5s infinite}@keyframes loading{0%{transform:translateX(-100%);width:25%}100%{transform:translateX(450%);width:25%}}.data-table{width:100%;border-collapse:collapse;font-size:10px}.data-table th{text-align:left;color:#7b8496;background:#f7f8fb;padding:9px;border-bottom:1px solid #e7eaf0}.data-table td{padding:10px 9px;border-bottom:1px solid #eef1f5}.data-table input{width:100%;border:0;background:transparent;font-size:10px}.analysis-meta{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px}.meta-box{padding:10px;border:1px solid #e9edf3;border-radius:10px}.meta-box span{font-size:8px;color:var(--muted);display:block}.meta-box b{font-size:11px}.empty-result{min-height:360px;display:grid;place-items:center;text-align:center;color:#929baa}.empty-result .big{font-size:34px}.empty-result p{font-size:11px}.ingredient-grid{display:grid;grid-template-columns:1.35fr .65fr;gap:13px}.ingredient-list{display:grid;gap:8px}.ingredient-row{display:grid;grid-template-columns:1.15fr .8fr .7fr .65fr;align-items:center;padding:11px;border:1px solid #edf0f4;border-radius:11px;font-size:10px}.ingredient-name{display:flex;align-items:center;gap:9px;font-weight:850}.food-icon{width:30px;height:30px;border-radius:9px;background:#f0f4ff;display:grid;place-items:center;font-size:14px}.change-up{color:var(--red);font-weight:900}.change-down{color:var(--green);font-weight:900}.donut{width:145px;height:145px;border-radius:50%;background:conic-gradient(var(--blue) 0 42%,var(--cyan) 42% 68%,var(--orange) 68% 84%,#e9edf3 84%);position:relative;margin:20px auto}.donut:after{content:"31.8%\A 원가율";white-space:pre;position:absolute;inset:24px;background:#fff;border-radius:50%;display:grid;place-items:center;text-align:center;font-size:12px;font-weight:900}.supplier-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:13px}.supplier-card{padding:18px;background:#fff;border:1px solid #e6eaf0;border-radius:15px}.supplier-card.best{border:2px solid var(--blue);position:relative}.best-badge{position:absolute;right:12px;top:12px;font-size:8px;background:#eaf0ff;color:var(--blue);padding:4px 7px;border-radius:999px;font-weight:900}.supplier-name{font-weight:900;font-size:13px}.supplier-rating{font-size:9px;color:#f59e0b}.supplier-price{font-size:23px;font-weight:950;margin:13px 0 2px}.supplier-card p{font-size:9px;color:var(--muted)}.store-grid-app{display:grid;grid-template-columns:repeat(3,1fr);gap:13px}.store-card{background:#fff;border:1px solid #e4e9f0;border-radius:16px;padding:17px}.store-head{display:flex;justify-content:space-between}.store-head b{font-size:13px}.store-status{font-size:8px;color:var(--green);background:#eaf8f2;padding:4px 7px;border-radius:999px}.store-metrics{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:15px}.store-metric{background:#f7f8fb;border-radius:10px;padding:9px}.store-metric span{font-size:8px;color:var(--muted);display:block}.store-metric b{font-size:13px}.mobile-app-nav{display:none}
+    .toast{position:fixed;right:24px;bottom:24px;z-index:200;background:#101827;color:#fff;padding:14px 17px;border-radius:13px;box-shadow:0 16px 35px rgba(0,0,0,.2);font-size:12px;transform:translateY(30px);opacity:0;pointer-events:none;transition:.25s}.toast.show{transform:none;opacity:1}
+
+    @media(max-width:980px){.nav-links{display:none}.hero-grid,.loop-grid{grid-template-columns:1fr}.hero-visual{max-width:650px;margin:20px auto 0}.problem-grid{grid-template-columns:1fr}.feature.large,.feature.small{grid-column:span 12}.audience-grid{grid-template-columns:repeat(2,1fr)}.price-grid{grid-template-columns:1fr}.price-card.featured{transform:none}.calc-box{grid-template-columns:1fr}.app-shell{grid-template-columns:1fr}.app-sidebar{display:none}.mobile-app-nav{position:fixed;display:flex;left:0;right:0;bottom:0;background:#fff;border-top:1px solid #e4e9f0;z-index:20;padding:7px;justify-content:space-around}.mobile-app-nav button{border:0;background:none;font-size:8px;color:#778095}.mobile-app-nav b{display:block;font-size:16px}.app-content{padding-bottom:75px}.app-kpis{grid-template-columns:repeat(2,1fr)}.dashboard-grid,.upload-grid,.ingredient-grid{grid-template-columns:1fr}.supplier-grid,.store-grid-app{grid-template-columns:1fr 1fr}}
+    @media(max-width:660px){.container{width:min(100% - 28px,1180px)}.section{padding:78px 0}.nav-actions .btn-light{display:none}.hero{padding-top:46px}.hero h1{font-size:46px}.hero-copy{font-size:16px}.hero-cta .btn{width:100%}.dash-mock{transform:none}.float-receipt{left:-5px;top:20px}.alert-card{right:-5px;bottom:30px}.mock-kpis{grid-template-columns:1fr}.mini-kpi:nth-child(n+2){display:none}.feature-grid{display:block}.feature{margin-bottom:14px;min-height:340px}.feature-ui{width:78%}.audience-grid{grid-template-columns:1fr 1fr}.calc-inputs,.calc-result{padding:28px}.cta-box{padding:50px 22px}.footer-inner{display:block}.footer-links{margin-top:12px}.app-topbar{padding:0 15px}.app-topbar .app-chip:nth-child(1){display:none}.app-content{padding:17px 12px 75px}.app-welcome{display:block}.app-welcome .btn{margin-top:12px}.app-kpis{grid-template-columns:1fr 1fr;gap:8px}.app-kpi-value{font-size:18px}.dashboard-grid{grid-template-columns:1fr}.upload-grid{grid-template-columns:1fr}.dropzone{min-height:310px}.analysis-meta{grid-template-columns:1fr}.ingredient-row{grid-template-columns:1.2fr .8fr .7fr}.ingredient-row>span:nth-child(3){display:none}.supplier-grid,.store-grid-app{grid-template-columns:1fr}.audience-card{padding:18px}.logos strong{width:100%;text-align:center}.mobile-menu{display:block}.nav-actions .btn-primary{display:none}}
+    @media(max-width:980px){.community-grid{grid-template-columns:1fr}.reaction-card{position:relative;top:auto}}
+    @media(max-width:660px){.comments-card,.reaction-card{padding:21px}.comment-form-foot{align-items:flex-end}.comment-form-foot .btn{padding:10px 13px}}
+  </style>
+</head>
+<body>
+  <nav class="nav">
+    <div class="container nav-inner">
+      <a class="brand" href="#top" aria-label="마진가드 홈">
+        <span class="brand-mark"><svg viewBox="0 0 24 24" fill="none"><path d="M5 14.5 9.2 10l3.1 3.1L19 6.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M18 6.5h1v4" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span>
+        마진가드
+      </a>
+      <div class="nav-links"><a href="#solution">솔루션</a><a href="#features">주요 기능</a><a href="#calculator">절감 효과</a><a href="#pricing">요금제</a><a href="#faq">FAQ</a><a href="#community">의견 남기기</a></div>
+      <div class="nav-actions"><button class="btn btn-light btn-sm" data-open-app>서비스 화면 보기</button><button class="btn btn-primary btn-sm" data-open-app>프로토타입 체험 →</button></div>
+      <button class="mobile-menu" aria-label="메뉴" data-open-app>☰</button>
+    </div>
+  </nav>
+
+  <main id="top">
+    <section class="hero">
+      <div class="container hero-grid">
+        <div>
+          <span class="pill" style="background:#eaf8f2;color:#087b4f"><span class="dot"></span> 외식업 사장님을 위한 AI 수익관리</span>
+          <h1>많이 파는 것보다<br><span class="gradient-text">얼마나 남는지</span>가 중요하니까.</h1>
+          <p class="hero-copy">매출, 식자재 영수증, 원가 변동을 한곳에서 연결하세요. 마진가드가 복잡한 숫자를 분석해 오늘의 진짜 수익을 알려드립니다.</p>
+          <div class="hero-cta"><button class="btn btn-primary btn-lg" data-open-app>웹앱 직접 체험하기 <span>→</span></button><a class="btn btn-light btn-lg" href="#solution">3분 만에 알아보기</a></div>
+          <div class="micro"><span>베타 개발 중</span><span>예시 데이터 사용</span><span>결제 기능 없음</span></div>
+        </div>
+        <div class="hero-visual" aria-label="마진가드 대시보드 미리보기">
+          <div class="dash-mock">
+            <div class="mock-top"><div class="mock-greeting"><b>좋은 아침이에요, 김사장님 👋</b><span>강남점 · 2026년 8월 20일</span></div><div class="avatar">👨🏻‍🍳</div></div>
+            <div class="mock-kpis">
+              <div class="mini-kpi"><span>어제 매출</span><strong>₩2,840,000</strong><em>+8.4%</em></div>
+              <div class="mini-kpi"><span>식자재 원가율</span><strong>31.8%</strong><em style="color:#ee5d63">+1.2%</em></div>
+              <div class="mini-kpi"><span>예상 영업이익</span><strong>₩624,000</strong><em>+4.1%</em></div>
+            </div>
+            <div class="chart-card">
+              <div class="chart-title"><div><b>이번 달 예상 영업이익</b><div class="chart-value">₩14,820,000 <small>▲ 12.4%</small></div></div><span>최근 30일⌄</span></div>
+              <svg class="chart-svg" viewBox="0 0 500 120" preserveAspectRatio="none"><defs><linearGradient id="area" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#487dff" stop-opacity=".45"/><stop offset="1" stop-color="#487dff" stop-opacity="0"/></linearGradient></defs><path d="M0 96 C35 83,48 92,78 73 S130 69,158 61 S203 67,230 47 S282 55,312 38 S365 49,397 26 S452 35,500 10 L500 120 L0 120Z" fill="url(#area)"/><path d="M0 96 C35 83,48 92,78 73 S130 69,158 61 S203 67,230 47 S282 55,312 38 S365 49,397 26 S452 35,500 10" fill="none" stroke="#7097ff" stroke-width="3"/><circle cx="397" cy="26" r="5" fill="#43d8c9" stroke="#fff" stroke-width="2"/></svg>
+            </div>
+          </div>
+          <div class="float-receipt"><span class="scan-icon">⌁</span><span>영수증 AI 분석 완료<br><small style="color:#16a36a">12개 품목 자동 저장</small></span></div>
+          <div class="alert-card"><span class="alert-icon">↗</span><div><b>양파 단가가 18% 올랐어요</b><p>더 저렴한 공급처를 찾았어요.<br><strong style="color:#356dff">월 82,000원 절감 가능 →</strong></p></div></div>
+        </div>
+      </div>
+    </section>
+
+    <div class="logos"><div class="container logos-inner"><strong>모든 외식업을 위해</strong><span class="industry-chip">🍚 한식</span><span class="industry-chip">🍗 배달 전문점</span><span class="industry-chip">☕ 카페</span><span class="industry-chip">🍺 주점</span><span class="industry-chip">🍝 레스토랑</span><span class="industry-chip">🏪 다점포·프랜차이즈</span></div></div>
+
+    <section class="section problem" id="solution">
+      <div class="container">
+        <div class="section-head"><span class="eyebrow">The problem</span><h2 class="section-title">매출은 오르는데<br>왜 통장에는 돈이 없을까요?</h2><p class="subhead">사장님이 놓치고 있는 숫자들이 매일 조금씩 마진을 가져가고 있습니다.</p></div>
+        <div class="problem-grid">
+          <article class="card problem-card"><div class="problem-icon">🧾</div><span class="problem-num">01</span><h3>쌓여가는 영수증</h3><p>종이 명세서와 마트 영수증이 서로 달라 정확한 매입액과 품목별 단가를 파악하기 어렵습니다.</p></article>
+          <article class="card problem-card"><div class="problem-icon">📈</div><span class="problem-num">02</span><h3>조용히 오르는 식자재</h3><p>가격이 조금씩 올라가도 알아채기 어렵고, 뒤늦게 확인할 때는 이미 수익이 줄어 있습니다.</p></article>
+          <article class="card problem-card"><div class="problem-icon">🧮</div><span class="problem-num">03</span><h3>감으로 계산하는 마진</h3><p>매출과 비용이 따로 관리되어 메뉴 하나를 팔 때 실제로 얼마가 남는지 알 수 없습니다.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section loop">
+      <div class="container loop-grid">
+        <div><span class="eyebrow" style="color:#76a0ff">Margin loop</span><h2 class="headline" style="font-size:clamp(34px,4vw,53px)">사진 한 장이<br>수익 개선으로<br>이어지는 구조</h2><p class="subhead">단순히 영수증을 정리하는 데서 끝나지 않습니다. 데이터를 연결해 행동할 수 있는 답을 만듭니다.</p></div>
+        <div class="loop-list">
+          <div class="loop-item"><span class="loop-step">1</span><div><b>영수증·명세서 촬영</b><p>어떤 형식의 종이든 사진 한 장이면 충분합니다.</p></div><span class="loop-tag">INPUT</span></div>
+          <div class="loop-item"><span class="loop-step">2</span><div><b>AI 품목 자동 정리</b><p>날짜·구매처·품목·수량·단가를 5초 안에 구조화합니다.</p></div><span class="loop-tag">AI OCR</span></div>
+          <div class="loop-item"><span class="loop-step">3</span><div><b>원가·가격 변동 분석</b><p>지난 거래와 비교해 오른 품목과 낭비 지점을 찾아냅니다.</p></div><span class="loop-tag">INSIGHT</span></div>
+          <div class="loop-item"><span class="loop-step">4</span><div><b>더 나은 공급처와 행동 추천</b><p>구매처 비교, 메뉴 원가 조정 등 바로 실행할 답을 제안합니다.</p></div><span class="loop-tag">ACTION</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="features">
+      <div class="container">
+        <div class="section-head"><span class="eyebrow">One connected platform</span><h2 class="section-title">정리 앱을 넘어,<br>매장 수익관리의 중심으로</h2><p class="subhead">입력은 가장 간단하게, 분석은 가장 깊게. 매일 필요한 운영 기능을 하나의 흐름으로 연결했습니다.</p></div>
+        <div class="feature-grid">
+          <article class="card feature large"><span class="feature-badge">AI DOCUMENT</span><h3>영수증·거래명세서 자동 분석</h3><p>구겨진 영수증부터 거래처별 수기 명세서까지 AI가 읽고 품목·수량·단가를 자동 저장합니다.</p><div class="feature-ui"><div class="scan-line"></div><div class="receipt-paper"><b>대성식자재마트</b><br>2026.08.19<div class="receipt-row"><span>깐양파 10kg</span><span>24,000</span></div><div class="receipt-row"><span>계란 특란 30구</span><span>7,200</span></div><div class="receipt-row"><span>식용유 18L</span><span>48,500</span></div><strong style="display:block;text-align:right;margin-top:5px">합계 79,700원</strong></div></div></article>
+          <article class="card feature small"><span class="feature-badge">PRICE ALERT</span><h3>식자재 가격 변동 알림</h3><p>이전 매입가와 자동 비교해 오른 품목을 바로 알려드립니다.</p><div class="cost-list"><div class="cost-row"><span>양파 10kg</span><div class="meter"><i style="width:82%;background:#ee5d63"></i></div><span style="color:#ee5d63">+18%</span></div><div class="cost-row"><span>식용유 18L</span><div class="meter"><i style="width:62%;background:#f59e0b"></i></div><span style="color:#f59e0b">+7%</span></div><div class="cost-row"><span>계란 30구</span><div class="meter"><i style="width:38%"></i></div><span style="color:#16a36a">-4%</span></div></div></article>
+          <article class="card feature small"><span class="feature-badge">SMART BUYING</span><h3>공급처 가격 비교</h3><p>동일 규격의 식자재를 비교하고 더 유리한 구매처를 제안합니다.</p><div class="supplier-mini"><div class="supplier-line"><span><b>마진가드 제휴유통</b><br><small>내일 오전 배송</small></span><span><b>21,800원</b><br><small class="saving">월 82,000원 절감</small></span></div><div class="supplier-line"><span><b>현재 거래처</b><br><small>주 3회 배송</small></span><span><b>24,000원</b></span></div></div></article>
+          <article class="card feature large"><span class="feature-badge">MULTI STORE</span><h3>매장별 수익률 통합 관리</h3><p>한 개 매장부터 전국 프랜차이즈까지, 매장별 매출과 원가율을 같은 기준으로 비교합니다.</p><div class="stores"><div class="store-dot active"><span>강남점</span><b>34.2%</b><small>영업이익률</small></div><div class="store-dot"><span>성수점</span><b>29.8%</b><small>영업이익률</small></div><div class="store-dot"><span>분당점</span><b>31.4%</b><small>영업이익률</small></div></div></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section calculator" id="calculator">
+      <div class="container">
+        <div class="section-head"><span class="eyebrow">Savings simulator</span><h2 class="section-title">우리 매장은 얼마나<br>더 남길 수 있을까요?</h2><p class="subhead">간단한 숫자를 입력하면 마진가드 도입 후 예상되는 월 절감 효과를 확인할 수 있습니다.</p></div>
+        <div class="calc-box">
+          <div class="calc-inputs"><h3>매장 운영 정보</h3><p>아래 값은 자유롭게 움직여 볼 수 있습니다.</p>
+            <div class="range-group"><div class="range-head"><label for="salesRange">월평균 매출</label><output id="salesOut">4,000만원</output></div><input id="salesRange" type="range" min="1000" max="15000" step="100" value="4000"></div>
+            <div class="range-group"><div class="range-head"><label for="foodRange">식자재비 비율</label><output id="foodOut">35%</output></div><input id="foodRange" type="range" min="15" max="60" value="35"></div>
+            <div class="range-group"><div class="range-head"><label for="storeRange">운영 매장 수</label><output id="storeOut">1개</output></div><input id="storeRange" type="range" min="1" max="20" value="1"></div>
+          </div>
+          <div class="calc-result"><h3>예상 월 절감액</h3><p>식자재 구매 최적화 3.5%와 관리업무 절감 시간을 기준으로 계산합니다.</p><div class="result-total"><span id="savingTotal">₩690,000</span> <small>/ 월</small></div><div class="result-grid"><div class="result-cell"><span>식자재 비용 절감</span><b id="foodSaving">₩490,000</b></div><div class="result-cell"><span>관리 시간 절감</span><b id="timeSaving">₩200,000</b></div></div><div class="result-note">✓ 연간 약 <strong id="yearSaving">₩8,280,000</strong>의 비용을 아낄 수 있어요.</div></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="section-head"><span class="eyebrow">Built for every owner</span><h2 class="section-title">매장 규모와 업종에 맞춰<br>필요한 만큼 시작하세요</h2></div>
+        <div class="audience-grid">
+          <article class="audience-card"><span class="emoji">🍳</span><h3>1인·소형 매장</h3><p>복잡한 회계 없이 사진만으로 매입과 원가를 관리합니다.</p></article>
+          <article class="audience-card"><span class="emoji">🛵</span><h3>배달 전문점</h3><p>채널별 매출과 식자재 비용을 연결해 실제 마진을 확인합니다.</p></article>
+          <article class="audience-card"><span class="emoji">🏬</span><h3>다점포 운영자</h3><p>여러 매장의 원가율과 거래처 가격을 한 화면에서 비교합니다.</p></article>
+          <article class="audience-card"><span class="emoji">🏢</span><h3>프랜차이즈 본사</h3><p>가맹점 데이터를 표준화하고 이상 비용을 빠르게 탐지합니다.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section pricing" id="pricing">
+      <div class="container">
+        <div class="section-head"><span class="eyebrow">Pricing concept</span><h2 class="section-title">부담 없이 시작하고<br>절감 효과로 증명하세요</h2><p class="subhead">아래 구성은 시장 반응 확인을 위한 요금제 콘셉트이며, 가격과 제공 기능은 아직 확정되지 않았습니다.</p></div>
+        <div class="price-grid">
+          <article class="price-card"><span class="price-name">STARTER</span><div class="price">출시 예정</div><p class="price-desc">먼저 기본적인 매입 정리와 대시보드를 경험하는 구상입니다.</p><ul class="price-list"><li>AI 영수증 분석</li><li>기본 매입 내역 정리</li><li>월간 비용 요약</li></ul><button class="btn btn-light" data-open-app>프로토타입 체험</button></article>
+          <article class="price-card featured"><span class="recommended">검토 중</span><span class="price-name">PRO</span><div class="price">요금 미정</div><p class="price-desc">원가와 가격 변동을 매일 관리하고 싶은 사장님을 위한 구상입니다.</p><ul class="price-list"><li>AI 영수증·명세서 분석</li><li>품목별 가격 변동 알림</li><li>메뉴별 원가 분석</li><li>공급처 가격 비교</li></ul><button class="btn btn-primary" data-open-app>기능 화면 체험</button></article>
+          <article class="price-card"><span class="price-name">BUSINESS</span><div class="price">협의 예정</div><p class="price-desc">다점포와 프랜차이즈를 위한 통합 운영 환경 구상입니다.</p><ul class="price-list"><li>전체 매장 통합 대시보드</li><li>본사·지점 권한 관리</li><li>ERP·POS 데이터 연동</li><li>전담 도입 지원</li></ul><button class="btn btn-dark" data-open-app>관리 화면 체험</button></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="faq">
+      <div class="container"><div class="section-head"><span class="eyebrow">FAQ</span><h2 class="section-title">자주 묻는 질문</h2></div><div class="faq-list">
+        <div class="faq-item open"><button class="faq-q">어떤 영수증과 명세서를 읽을 수 있나요?<i>+</i></button><div class="faq-a">마트 영수증, 거래처 거래명세서, 세금계산서 이미지 등 다양한 형태를 대상으로 합니다. AI가 인식한 결과는 저장 전에 사용자가 직접 확인하고 수정할 수 있도록 설계했습니다.</div></div>
+        <div class="faq-item"><button class="faq-q">AI가 품목이나 금액을 잘못 읽으면 어떻게 하나요?<i>+</i></button><div class="faq-a">모든 분석 결과는 최종 저장 전에 검수 화면을 제공합니다. 불확실한 값은 별도로 표시하고 원본 이미지와 나란히 비교할 수 있게 해 정확도를 높입니다.</div></div>
+        <div class="faq-item"><button class="faq-q">한 개 매장도 사용할 수 있나요?<i>+</i></button><div class="faq-a">네. 한 개 매장은 간단한 영수증 관리와 원가 분석부터 시작하고, 매장이 늘어나면 다점포 통합 기능을 추가할 수 있습니다.</div></div>
+        <div class="faq-item"><button class="faq-q">현재 사용 중인 POS나 ERP를 바꿔야 하나요?<i>+</i></button><div class="faq-a">아닙니다. 마진가드는 기존 시스템을 대체하기보다 부족한 원가·식자재 데이터를 보완하는 방식으로 설계합니다. 연동 가능한 시스템부터 단계적으로 연결할 수 있습니다.</div></div>
+      </div></div>
+    </section>
+
+    <section class="section community" id="community">
+      <div class="container">
+        <div class="section-head"><span class="eyebrow">Community demo</span><h2 class="section-title">마진가드, 어떻게 보셨나요?</h2><p class="subhead">좋아요를 누르고 의견을 남겨보세요. 지금은 같은 브라우저에서 동작을 시험하는 데모 기능입니다.</p></div>
+        <div class="community-grid">
+          <aside class="reaction-card">
+            <span class="demo-label">BETA REACTION</span>
+            <h3>이 서비스가 기대된다면<br>좋아요를 눌러주세요.</h3>
+            <p>사장님들의 반응은 다음 기능을 결정하는 가장 중요한 데이터가 됩니다.</p>
+            <button class="like-btn" id="likeBtn" type="button" aria-pressed="false"><span><i class="heart">♡</i> 좋아요</span><span class="like-count"><b id="likeCount">0</b>명</span></button>
+            <div class="demo-notice" id="storageNotice">ⓘ 저장 방식을 확인하는 중입니다.</div>
+          </aside>
+          <div class="comments-card">
+            <div class="comments-head"><h3>사장님 의견</h3><span>댓글 <b id="commentCount">0</b>개</span></div>
+            <form class="comment-form" id="commentForm">
+              <input class="comment-name" id="commentName" maxlength="20" placeholder="이름 또는 매장명 (선택)">
+              <input class="comment-honeypot" id="commentWebsite" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" placeholder="웹사이트">
+              <textarea id="commentText" maxlength="300" required placeholder="필요한 기능이나 솔직한 의견을 남겨주세요. 민감정보는 입력하지 마세요."></textarea>
+              <label class="consent-row"><input id="privacyConsent" type="checkbox" required><span>댓글이 공개되며, 입력 이름·댓글·무작위 브라우저 식별자·작성 시각이 베타 의견 공유와 본인 댓글 삭제 목적으로 저장되는 것에 동의합니다.</span></label>
+              <div class="comment-form-foot"><span class="char-count"><b id="commentChars">0</b>/300</span><button class="btn btn-primary btn-sm" type="submit">댓글 등록</button></div>
+              <details class="privacy-details"><summary>개인정보 및 댓글 운영 안내</summary><p>댓글은 누구나 볼 수 있습니다. 민감정보를 입력하지 마세요. 본인 댓글은 같은 브라우저에서 삭제할 수 있으며, 테스트 종료 또는 운영상 필요 시 데이터가 삭제될 수 있습니다. 삭제·신고 문의는 GitHub Issues를 이용해 주세요.</p></details>
+            </form>
+            <div class="comment-list" id="commentList" aria-live="polite"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="final-cta"><div class="container"><div class="cta-box"><span class="pill" style="background:rgba(255,255,255,.08);color:#aebfff">MARGINGUARD BETA</span><h2>오늘의 매출이<br>내일의 진짜 수익이 되도록.</h2><p>복잡한 숫자 대신, 지금 무엇을 바꿔야 하는지 알려드릴게요. 웹앱 프로토타입을 직접 체험해 보세요.</p><button class="btn btn-primary btn-lg" data-open-app>마진가드 체험하기 →</button></div></div></section>
+  </main>
+
+  <footer class="footer"><div class="container footer-inner"><div class="brand"><span class="brand-mark">↗</span>마진가드 <small style="font-weight:500;margin-left:5px">© 2026 MarginGuard · 베타 프로토타입</small></div><div class="footer-links"><a href="#community">개인정보·댓글 안내</a><a href="https://github.com/jj0829/MarginGuard/issues" target="_blank" rel="noopener noreferrer">삭제·신고 문의</a><a href="https://github.com/jj0829/MarginGuard" target="_blank" rel="noopener noreferrer">GitHub</a></div></div></footer>
+
+  <!-- 클릭 가능한 서비스형 웹앱 프로토타입 -->
+  <section class="app-overlay" id="appOverlay" aria-label="마진가드 웹앱 프로토타입">
+    <div class="app-shell">
+      <aside class="app-sidebar">
+        <div class="app-brand"><div class="brand"><span class="brand-mark">↗</span>마진가드</div><button class="close-app" data-close-app aria-label="웹앱 닫기">×</button></div>
+        <div class="side-user"><div class="avatar">👨🏻‍🍳</div><div><b>맛있는키친</b><span>강남점 · PRO 플랜</span></div></div>
+        <div class="side-label">Workspace</div>
+        <nav class="side-nav">
+          <button class="active" data-view="dashboard"><span class="nav-symbol">▦</span>대시보드</button>
+          <button data-view="receipts"><span class="nav-symbol">▤</span>영수증 AI 분석</button>
+          <button data-view="cost"><span class="nav-symbol">◔</span>원가 분석</button>
+          <button data-view="market"><span class="nav-symbol">⌕</span>식자재 비교</button>
+          <button data-view="stores"><span class="nav-symbol">⌂</span>매장 관리</button>
+        </nav>
+        <div class="side-label" style="margin-top:20px">Account</div>
+        <nav class="side-nav"><button><span class="nav-symbol">⚙</span>설정</button><button><span class="nav-symbol">?</span>도움말</button></nav>
+        <div class="side-bottom"><b>이번 달 142,000원 절감</b><span>마진가드가 찾은 절감 기회</span></div>
+      </aside>
+
+      <div class="app-main">
+        <header class="app-topbar"><h2 id="appTitle">대시보드</h2><div class="top-actions"><button class="app-chip">강남점 ⌄</button><button class="app-chip">🔔 <b style="color:#ee5d63">3</b></button><button class="close-app" style="background:#eef1f6;color:#202b3e" data-close-app aria-label="닫기">×</button></div></header>
+        <div class="app-content">
+          <section class="app-view active" id="view-dashboard">
+            <div class="app-welcome"><div><h1>좋은 아침이에요, 김사장님 👋</h1><p>오늘도 매장 수익을 지킬 수 있도록 중요한 변화를 정리했어요.</p></div><button class="btn btn-primary btn-sm" data-go-receipt>＋ 영수증 분석하기</button></div>
+            <div class="app-kpis">
+              <div class="app-card"><div class="app-kpi-head"><span>어제 매출</span><span>↗</span></div><div class="app-kpi-value">₩2,840,000</div><div class="tiny up">▲ 전주 같은 요일보다 8.4%</div></div>
+              <div class="app-card"><div class="app-kpi-head"><span>이번 달 매입</span><span>▤</span></div><div class="app-kpi-value">₩8,920,000</div><div class="tiny down">▲ 지난달보다 3.1%</div></div>
+              <div class="app-card"><div class="app-kpi-head"><span>식자재 원가율</span><span>◔</span></div><div class="app-kpi-value">31.8%</div><div class="tiny down">▲ 목표보다 1.8%p 높음</div></div>
+              <div class="app-card"><div class="app-kpi-head"><span>예상 영업이익</span><span>₩</span></div><div class="app-kpi-value">₩14.82M</div><div class="tiny up">▲ 지난달보다 12.4%</div></div>
+            </div>
+            <div class="dashboard-grid">
+              <div class="app-card app-chart"><div class="app-card-title"><b>매출과 원가 추이</b><span>최근 30일 ⌄</span></div><svg class="app-line-chart" viewBox="0 0 700 190" preserveAspectRatio="none"><g stroke="#edf0f4" stroke-width="1"><line x1="0" y1="25" x2="700" y2="25"/><line x1="0" y1="75" x2="700" y2="75"/><line x1="0" y1="125" x2="700" y2="125"/><line x1="0" y1="175" x2="700" y2="175"/></g><path d="M0 145 C45 130 67 141 105 112 S166 123 212 90 S278 105 325 69 S385 87 430 58 S512 78 552 42 S630 60 700 18" fill="none" stroke="#356dff" stroke-width="3"/><path d="M0 165 C55 155 73 160 113 145 S184 153 225 130 S302 145 344 119 S413 132 460 108 S533 119 575 94 S647 107 700 75" fill="none" stroke="#42cbbf" stroke-width="3" stroke-dasharray="7 5"/><g fill="#7a8495" font-size="9"><text x="0" y="188">8/01</text><text x="165" y="188">8/08</text><text x="335" y="188">8/15</text><text x="505" y="188">8/22</text><text x="668" y="188">8/29</text></g></svg></div>
+              <div class="app-card"><div class="app-card-title"><b>오늘 확인할 알림</b><span>전체 보기</span></div><div class="alerts"><div class="alert-row"><span class="alert-icon">↗</span><div><b>양파 매입가 18% 상승</b><span>대성식자재마트 · 오늘</span></div><em>확인</em></div><div class="alert-row"><span class="alert-icon" style="background:#e8faf5;color:#16a36a">₩</span><div><b>더 저렴한 식용유 발견</b><span>월 82,000원 절감 가능</span></div><em>비교</em></div><div class="alert-row"><span class="alert-icon" style="background:#edf2ff;color:#356dff">▤</span><div><b>영수증 3장 검토 필요</b><span>인식률이 낮은 항목이 있어요</span></div><em>검토</em></div><div class="alert-row"><span class="alert-icon" style="background:#fff0f1;color:#ee5d63">!</span><div><b>원가율 목표 초과</b><span>현재 31.8% · 목표 30%</span></div><em>분석</em></div></div></div>
+            </div>
+          </section>
+
+          <section class="app-view" id="view-receipts">
+            <div class="app-welcome"><div><h1>영수증 AI 분석</h1><p>사진을 올리면 품목·수량·단가를 자동으로 정리해 드립니다.</p></div></div>
+            <div class="upload-grid">
+              <div class="app-card"><label class="dropzone" id="dropzone" for="receiptFile"><div id="dropPrompt"><div class="drop-icon">📷</div><h3>영수증 또는 명세서를 올려주세요</h3><p>이미지를 끌어놓거나 클릭해서 선택하세요.<br>JPG, PNG · 최대 10MB</p><span class="btn btn-primary btn-sm">사진 선택하기</span></div><img class="preview-img" id="previewImg" alt="업로드한 영수증 미리보기"><div class="analysis-state" id="analysisState"><div class="drop-icon">✨</div><h3>AI가 문서를 분석하고 있어요</h3><p>품목과 금액을 구조화하는 중입니다.</p><div class="loader"><i></i></div></div></label><input class="file-input" id="receiptFile" type="file" accept="image/*"><button class="btn btn-primary" id="analyzeBtn" style="width:100%;margin-top:12px" disabled>AI 분석 시작</button></div>
+              <div class="app-card" id="resultPanel"><div class="app-card-title"><b>분석 결과</b><span>저장 전 내용을 확인해 주세요</span></div><div class="empty-result" id="emptyResult"><div><div class="big">▤</div><p>왼쪽에서 영수증을 선택하면<br>분석 결과가 여기에 표시됩니다.</p></div></div><div id="resultContent" style="display:none"><div class="analysis-meta"><div class="meta-box"><span>구매처</span><b>대성식자재마트</b></div><div class="meta-box"><span>구매일</span><b>2026.08.19</b></div><div class="meta-box"><span>합계</span><b>₩121,700</b></div></div><table class="data-table"><thead><tr><th>품목</th><th>규격</th><th>수량</th><th>단가</th><th>금액</th></tr></thead><tbody><tr><td><input value="깐양파"></td><td><input value="10kg"></td><td><input value="1"></td><td><input value="24,000"></td><td>24,000</td></tr><tr><td><input value="계란 특란"></td><td><input value="30구"></td><td><input value="2"></td><td><input value="7,200"></td><td>14,400</td></tr><tr><td><input value="식용유"></td><td><input value="18L"></td><td><input value="1"></td><td><input value="48,500"></td><td>48,500</td></tr><tr><td><input value="돼지고기 앞다리"></td><td><input value="5kg"></td><td><input value="1"></td><td><input value="34,800"></td><td>34,800</td></tr></tbody></table><button class="btn btn-primary btn-sm" id="saveReceipt" style="float:right;margin-top:15px">확인하고 저장</button></div></div>
+            </div>
+          </section>
+
+          <section class="app-view" id="view-cost">
+            <div class="app-welcome"><div><h1>원가 분석</h1><p>이번 달 품목별 가격 변동과 원가 구성입니다.</p></div><button class="btn btn-light btn-sm">보고서 내보내기</button></div>
+            <div class="ingredient-grid"><div class="app-card"><div class="app-card-title"><b>주요 식자재 가격 변동</b><span>2026년 8월</span></div><div class="ingredient-list"><div class="ingredient-row"><span class="ingredient-name"><i class="food-icon">🧅</i>깐양파</span><span>24,000원 / 10kg</span><span>대성식자재</span><span class="change-up">+18.0%</span></div><div class="ingredient-row"><span class="ingredient-name"><i class="food-icon">🛢️</i>식용유</span><span>48,500원 / 18L</span><span>대성식자재</span><span class="change-up">+7.2%</span></div><div class="ingredient-row"><span class="ingredient-name"><i class="food-icon">🥚</i>특란</span><span>7,200원 / 30구</span><span>한빛유통</span><span class="change-down">-4.1%</span></div><div class="ingredient-row"><span class="ingredient-name"><i class="food-icon">🥩</i>돼지 앞다리</span><span>6,960원 / kg</span><span>우리축산</span><span class="change-up">+2.8%</span></div><div class="ingredient-row"><span class="ingredient-name"><i class="food-icon">🍚</i>쌀</span><span>52,000원 / 20kg</span><span>경기미곡</span><span class="change-down">-1.3%</span></div></div></div><div class="app-card"><div class="app-card-title"><b>매출 대비 원가 구성</b><span>목표 30%</span></div><div class="donut"></div><div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:9px"><span>🔵 육류 42%</span><span>🟢 농산 26%</span><span>🟠 공산품 16%</span><span>⚪ 기타 16%</span></div></div></div>
+          </section>
+
+          <section class="app-view" id="view-market">
+            <div class="app-welcome"><div><h1>식자재 가격 비교</h1><p>깐양파 10kg 기준, 현재 납품 가능한 공급처입니다.</p></div><button class="btn btn-light btn-sm">필터 ⚙</button></div>
+            <div class="supplier-grid"><article class="supplier-card best"><span class="best-badge">최저가</span><div class="supplier-name">마진유통 서울</div><span class="supplier-rating">★★★★★ 4.9</span><div class="supplier-price">₩21,800</div><p>내일 오전 배송 · 무료배송 · 최소주문 5만원</p><button class="btn btn-primary btn-sm" style="width:100%" data-demo-toast>공급처 문의</button></article><article class="supplier-card"><div class="supplier-name">우리동네 식자재</div><span class="supplier-rating">★★★★☆ 4.6</span><div class="supplier-price">₩22,900</div><p>오늘 저녁 배송 · 배송비 3,000원 · 최소주문 없음</p><button class="btn btn-light btn-sm" style="width:100%" data-demo-toast>공급처 문의</button></article><article class="supplier-card"><div class="supplier-name">현재 거래처</div><span class="supplier-rating">★★★★☆ 4.5</span><div class="supplier-price">₩24,000</div><p>주 3회 배송 · 무료배송 · 기존 계약 거래처</p><button class="btn btn-light btn-sm" style="width:100%" data-demo-toast>거래 내역 보기</button></article></div>
+            <div class="app-card" style="margin-top:13px"><div class="app-card-title"><b>예상 절감 효과</b><span>현재 월평균 40박스 구매 기준</span></div><div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px"><div class="meta-box"><span>현재 월 구매액</span><b>₩960,000</b></div><div class="meta-box"><span>변경 후 구매액</span><b>₩872,000</b></div><div class="meta-box" style="background:#eaf8f2"><span>예상 월 절감액</span><b style="color:#087b4f">₩88,000</b></div></div></div>
+          </section>
+
+          <section class="app-view" id="view-stores">
+            <div class="app-welcome"><div><h1>매장 관리</h1><p>전체 매장의 운영 현황을 같은 기준으로 비교합니다.</p></div><button class="btn btn-primary btn-sm" data-demo-toast>＋ 매장 추가</button></div>
+            <div class="store-grid-app"><article class="store-card"><div class="store-head"><b>강남점</b><span class="store-status">운영 중</span></div><div class="store-metrics"><div class="store-metric"><span>이번 달 매출</span><b>₩48.2M</b></div><div class="store-metric"><span>원가율</span><b>31.8%</b></div><div class="store-metric"><span>영업이익률</span><b style="color:#16a36a">34.2%</b></div><div class="store-metric"><span>가격 알림</span><b style="color:#ee5d63">3건</b></div></div></article><article class="store-card"><div class="store-head"><b>성수점</b><span class="store-status">운영 중</span></div><div class="store-metrics"><div class="store-metric"><span>이번 달 매출</span><b>₩42.9M</b></div><div class="store-metric"><span>원가율</span><b>34.1%</b></div><div class="store-metric"><span>영업이익률</span><b style="color:#f59e0b">29.8%</b></div><div class="store-metric"><span>가격 알림</span><b>1건</b></div></div></article><article class="store-card"><div class="store-head"><b>분당점</b><span class="store-status">운영 중</span></div><div class="store-metrics"><div class="store-metric"><span>이번 달 매출</span><b>₩38.7M</b></div><div class="store-metric"><span>원가율</span><b>32.5%</b></div><div class="store-metric"><span>영업이익률</span><b style="color:#16a36a">31.4%</b></div><div class="store-metric"><span>가격 알림</span><b>0건</b></div></div></article></div>
+          </section>
+        </div>
+      </div>
+    </div>
+    <nav class="mobile-app-nav"><button data-view="dashboard"><b>▦</b>홈</button><button data-view="receipts"><b>▤</b>영수증</button><button data-view="cost"><b>◔</b>원가</button><button data-view="market"><b>⌕</b>비교</button><button data-view="stores"><b>⌂</b>매장</button></nav>
+  </section>
+
+  <div class="toast" id="toast">프로토타입 기능입니다.</div>
+
+  <script>
+    const $ = (s, c=document) => c.querySelector(s);
+    const $$ = (s, c=document) => [...c.querySelectorAll(s)];
+    const overlay = $('#appOverlay');
+    const titleMap = {dashboard:'대시보드', receipts:'영수증 AI 분석', cost:'원가 분석', market:'식자재 비교', stores:'매장 관리'};
+
+    function openApp(){ overlay.classList.add('show'); document.body.style.overflow='hidden'; switchView('dashboard'); }
+    function closeApp(){ overlay.classList.remove('show'); document.body.style.overflow=''; }
+    $$('[data-open-app]').forEach(b=>b.addEventListener('click',openApp));
+    $$('[data-close-app]').forEach(b=>b.addEventListener('click',closeApp));
+    document.addEventListener('keydown',e=>{if(e.key==='Escape'&&overlay.classList.contains('show')) closeApp()});
+
+    function switchView(name){
+      $$('.app-view').forEach(v=>v.classList.toggle('active',v.id===`view-${name}`));
+      $$('[data-view]').forEach(b=>b.classList.toggle('active',b.dataset.view===name));
+      $('#appTitle').textContent=titleMap[name]||'마진가드';
+      $('.app-main').scrollTo({top:0,behavior:'smooth'});
+    }
+    $$('[data-view]').forEach(b=>b.addEventListener('click',()=>switchView(b.dataset.view)));
+    $$('[data-go-receipt]').forEach(b=>b.addEventListener('click',()=>switchView('receipts')));
+
+    $$('.faq-q').forEach(q=>q.addEventListener('click',()=>q.parentElement.classList.toggle('open')));
+
+    const salesRange=$('#salesRange'), foodRange=$('#foodRange'), storeRange=$('#storeRange');
+    const won=n=>'₩'+Math.round(n).toLocaleString('ko-KR');
+    function calc(){
+      const sales=+salesRange.value*10000, ratio=+foodRange.value/100, stores=+storeRange.value;
+      const food=sales*ratio*.035*stores, time=200000*stores, total=food+time;
+      $('#salesOut').textContent=(+salesRange.value).toLocaleString()+'만원'; $('#foodOut').textContent=foodRange.value+'%'; $('#storeOut').textContent=stores+'개';
+      $('#foodSaving').textContent=won(food); $('#timeSaving').textContent=won(time); $('#savingTotal').textContent=won(total); $('#yearSaving').textContent=won(total*12);
+    }
+    [salesRange,foodRange,storeRange].forEach(r=>r.addEventListener('input',calc)); calc();
+
+    const fileInput=$('#receiptFile'), preview=$('#previewImg'), prompt=$('#dropPrompt'), analyze=$('#analyzeBtn'), state=$('#analysisState'), dropzone=$('#dropzone');
+    function handleFile(file){
+      if(!file||!file.type.startsWith('image/')) return showToast('이미지 파일을 선택해 주세요.');
+      const reader=new FileReader(); reader.onload=e=>{preview.src=e.target.result;preview.style.display='block';prompt.style.display='none';state.classList.remove('show');analyze.disabled=false;$('#emptyResult').style.display='grid';$('#resultContent').style.display='none'}; reader.readAsDataURL(file);
+    }
+    fileInput.addEventListener('change',e=>handleFile(e.target.files[0]));
+    ['dragenter','dragover'].forEach(ev=>dropzone.addEventListener(ev,e=>{e.preventDefault();dropzone.classList.add('drag')}));
+    ['dragleave','drop'].forEach(ev=>dropzone.addEventListener(ev,e=>{e.preventDefault();dropzone.classList.remove('drag')}));
+    dropzone.addEventListener('drop',e=>handleFile(e.dataTransfer.files[0]));
+    analyze.addEventListener('click',()=>{preview.style.display='none';state.classList.add('show');analyze.disabled=true;setTimeout(()=>{state.classList.remove('show');preview.style.display='block';$('#emptyResult').style.display='none';$('#resultContent').style.display='block';analyze.textContent='다시 분석하기';analyze.disabled=false;showToast('AI 분석이 완료되었습니다.')},1800)});
+    $('#saveReceipt').addEventListener('click',()=>showToast('영수증 데이터가 저장되었습니다.'));
+
+    const storage = {
+      get(key, fallback){try{const value=localStorage.getItem(key);return value===null?fallback:JSON.parse(value)}catch{return fallback}},
+      set(key, value){try{localStorage.setItem(key,JSON.stringify(value));return true}catch{return false}}
+    };
+    const defaultComments=[];
+    const visitorId=storage.get('marginguard_visitor_id_v1',null)||(globalThis.crypto&&typeof globalThis.crypto.randomUUID==='function'?globalThis.crypto.randomUUID():'v-'+Date.now()+'-'+Math.random().toString(36).slice(2));
+    storage.set('marginguard_visitor_id_v1',visitorId);
+    let apiAvailable=false, comments=[], liked=storage.get('marginguard_liked_v1',false)===true, likeCount=0;
+    const commentText=$('#commentText');
+    function renderComments(items=comments){
+      const list=$('#commentList'); list.textContent=''; $('#commentCount').textContent=items.length;
+      if(!items.length){const empty=document.createElement('div');empty.className='no-comments';empty.textContent='아직 등록된 댓글이 없습니다. 첫 의견을 남겨주세요.';list.append(empty);return}
+      items.forEach(comment=>{
+        const item=document.createElement('article'); item.className='comment-item';
+        const meta=document.createElement('div'); meta.className='comment-meta';
+        const author=document.createElement('div'); author.className='comment-author';
+        const avatar=document.createElement('span'); avatar.className='comment-avatar'; avatar.textContent='👤';
+        const info=document.createElement('div'); const name=document.createElement('b'); name.textContent=comment.name; const role=document.createElement('span'); role.textContent=comment.mine?'내가 남긴 의견':'베타 참여자'; info.append(name,role); author.append(avatar,info);
+        const right=document.createElement('div'); const time=document.createElement('span'); time.className='comment-time'; time.textContent=comment.time; right.append(time);
+        if(comment.mine){const del=document.createElement('button');del.type='button';del.className='delete-comment';del.textContent=' · 삭제';del.addEventListener('click',async()=>{try{if(apiAvailable){await fetch('/api/comments/'+encodeURIComponent(comment.id),{method:'DELETE',headers:{'Content-Type':'application/json'},body:JSON.stringify({visitorId})});await loadFeedback()}else{let local=storage.get('marginguard_comments_v1',[]);local=local.filter(c=>c.id!==comment.id);storage.set('marginguard_comments_v1',local);comments=[...local,...defaultComments];renderComments()};showToast('댓글을 삭제했습니다.')}catch{showToast('댓글 삭제에 실패했습니다.')}});right.append(del)}
+        const text=document.createElement('p');text.className='comment-text';text.textContent=comment.text;meta.append(author,right);item.append(meta,text);list.append(item);
+      });
+    }
+    function renderLike(value){liked=value;const btn=$('#likeBtn');btn.classList.toggle('liked',value);btn.setAttribute('aria-pressed',String(value));$('.heart',btn).textContent=value?'♥':'♡';$('#likeCount').textContent=likeCount}
+    function localFeedback(){const local=storage.get('marginguard_comments_v1',[]);comments=Array.isArray(local)?local:[];likeCount=liked?1:0;renderLike(liked);renderComments();$('#storageNotice').textContent='⚠ 서버에 연결되지 않아 이 브라우저에만 임시 저장됩니다.'}
+    async function loadFeedback(){
+      try{
+        const response=await fetch('/api/feedback?visitorId='+encodeURIComponent(visitorId),{headers:{Accept:'application/json'}}); if(!response.ok) throw new Error('API unavailable');
+        const data=await response.json(); apiAvailable=true; comments=Array.isArray(data.comments)?data.comments:[]; likeCount=Number(data.likeCount)||0; renderLike(Boolean(data.liked)); renderComments(); $('#storageNotice').textContent='✓ 서버 저장 모드: 다른 방문자와 좋아요·댓글이 공유됩니다.';
+      }catch{apiAvailable=false;localFeedback()}
+    }
+    renderLike(liked); renderComments(); loadFeedback();
+    $('#likeBtn').addEventListener('click',async()=>{try{if(apiAvailable){const response=await fetch('/api/likes/toggle',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({visitorId})});if(!response.ok)throw new Error();const data=await response.json();likeCount=data.likeCount;renderLike(data.liked);showToast(data.liked?'좋아요를 눌렀습니다.':'좋아요를 취소했습니다.')}else{const value=!liked;storage.set('marginguard_liked_v1',value);likeCount=value?1:0;renderLike(value);showToast(value?'좋아요를 눌렀습니다.':'좋아요를 취소했습니다.')}}catch{showToast('좋아요 저장에 실패했습니다.')}});
+    commentText.addEventListener('input',()=>$('#commentChars').textContent=commentText.value.length);
+    $('#commentForm').addEventListener('submit',async e=>{e.preventDefault();const text=commentText.value.trim(),name=$('#commentName').value.trim()||'익명 사장님',website=$('#commentWebsite').value.trim();if(!text)return showToast('댓글 내용을 입력해 주세요.');if(!$('#privacyConsent').checked)return showToast('댓글 저장 및 공개 안내에 동의해 주세요.');try{if(apiAvailable){const response=await fetch('/api/comments',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({visitorId,name,text,website})});if(!response.ok)throw new Error();await loadFeedback()}else{const local=storage.get('marginguard_comments_v1',[]);local.unshift({id:String(Date.now()),name,text,time:'방금 전',mine:true});storage.set('marginguard_comments_v1',local);comments=[...local];renderComments()}commentText.value='';$('#privacyConsent').checked=false;$('#commentChars').textContent='0';showToast('댓글이 등록되었습니다.')}catch{showToast('댓글 저장에 실패했습니다.')}});
+
+    function showToast(message){const t=$('#toast');t.textContent=message;t.classList.add('show');clearTimeout(window.toastTimer);window.toastTimer=setTimeout(()=>t.classList.remove('show'),2200)}
+    $$('[data-demo-toast]').forEach(b=>b.addEventListener('click',()=>showToast('실제 서비스에서 연결될 기능입니다.')));
+  </script>
+</body>
+</html>
